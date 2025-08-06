@@ -315,13 +315,15 @@ label.ds3 p {
 /* Animation Classes */
 .fade-out {
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
   pointer-events: none;
 }
 
 .fade-in {
   opacity: 1;
-  transition: opacity 0.4s ease;
+  transform: translateY(0);
+  transition: all 0.3s ease;
   pointer-events: auto;
 }
 
@@ -525,6 +527,3 @@ html {
   color: #e74c3c;
   box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
 }
-
-
-

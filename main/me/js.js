@@ -83,49 +83,18 @@ nextBtn.addEventListener("click", () => {
             errorMsg.style.color = '#e74c3c';
             errorMsg.style.fontSize = '14px';
             errorMsg.style.marginTop = '10px';
-
+            
             // Remove existing error messages
             stepElement.querySelectorAll('.error-message').forEach(msg => msg.remove());
             stepElement.appendChild(errorMsg);
-
+            
             setTimeout(() => errorMsg.remove(), 3000);
         }
     } else {
-        if (validateStep(currentStep)) {
-            // Collect user data
-            const name = document.getElementById('name').value.trim();
-            const goal = document.querySelector('input[name="goal"]:checked')?.value;
-            const experience = document.querySelector('input[name="experience"]:checked')?.value;
-            const topics = Array.from(document.querySelectorAll('input[name="topics"]:checked')).map(cb => cb.value);
-
-            // Store in localStorage
-            const userProfile = {
-                name,
-                goal,
-                experience,
-                topics
-            };
-            localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
-            // Redirect
-            window.location.href = "/me/recommendation.html";
-        } else {
-            // Optionally show validation message here if final step incomplete
-            const stepElement = document.querySelector(`[data-step="${currentStep}"]`);
-            const errorMsg = document.createElement('p');
-            errorMsg.className = 'error-message';
-            errorMsg.textContent = 'Please complete this step before continuing.';
-            errorMsg.style.color = '#e74c3c';
-            errorMsg.style.fontSize = '14px';
-            errorMsg.style.marginTop = '10px';
-
-            stepElement.querySelectorAll('.error-message').forEach(msg => msg.remove());
-            stepElement.appendChild(errorMsg);
-            setTimeout(() => errorMsg.remove(), 3000);
-        }
+        // Final step completion
+        alert("You've completed onboarding! Welcome to Champ Assist!");
     }
 });
-
 
 backBtn.addEventListener("click", () => {
     if (currentStep > 1) {
