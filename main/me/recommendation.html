@@ -4,97 +4,412 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Champ Assist - Recommendations</title>
+    <link rel="shortcut icon" href="https://fontawesome.com/" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: sans-serif;
+        background-color: #F3F4F6;
+        color: black;
+        overflow-x: hidden;
+      }
+
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 220px;
+        background-color: #ffffff;
+        color: rgb(0, 0, 0);
+        padding: 5px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        z-index: 1000;
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      
+      .sidebar .logo-container img {
+        max-width: 200px;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .sidenav {
+        gap: 20px;
+        display: grid;
+        text-align: left;
+      }
+
+      .sidenav a.active {
+        background-color: #6bd6d663;
+      }
+      
+      .sidebar nav a {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        font-size: 15px;
+        padding: 10px;
+        border-bottom: 1px solid #ffffff33;
+        transition: color 0.2s;
+        background-color: #fff;
+        border: 1px solid #fff;
+        border-radius: 5px;
+      }
+      
+      .sidebar nav a:hover {
+        color: #ffffff;
+        background-color: rgb(0, 80, 86);
+        border: 1px solid;
+      }
+      
+      /* Main content area */
+      .main-content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+        min-height: 100vh;
+        padding: 0 20px 20px 20px;
+        max-width: 100%;
+        transition: margin-left 0.3s ease;
+      }
+      
+      /* Mobile menu toggle button */
+      .menu-toggle {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1001;
+        background: #008080;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+      }
+      
+      /* Overlay for mobile */
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 250px;
+          transform: translateX(-100%);
+        }
+        
+        .sidebar.active {
+          transform: translateX(0);
+        }
+        
+        .main-content {
+          margin-left: 0;
+          width: 100%;
+          padding: 10px;
+        }
+        
+        .menu-toggle {
+          display: block;
+        }
+        
+        .overlay.active {
+          display: block;
+        }
+        
+        .top-nav {
+          padding-left: 60px;
+        }
+      }
+      
+      @media (max-width: 640px) {
+        .sidebar {
+          width: 100%;
+          max-width: 280px;
+        }
+        
+        .main-content {
+          padding: 8px;
+        }
+      }
+      
+      /* Custom scrollbar for recommendations */
+      #recommendations::-webkit-scrollbar {
+        height: 8px;
+      }
+      #recommendations::-webkit-scrollbar-thumb {
+        background-color: #004c4c;
+        border-radius: 4px;
+      }
+      #recommendations::-webkit-scrollbar-track {
+        background: #f5f5f5;
+      }
+      
+      .logoman {
+        max-width: 150px;
+      }
+      
+      #enroll {
+        text-decoration: none;
+        background-color: teal;
+        padding: 12px 20px;
+        border-radius: 5px;
+        color: #ffffff;
+        font-weight: bold;
+        transition: .2s;
+        box-shadow: 4px 4px 0px 0px #fde047;
+      }
+      
+      #enroll:hover {
+        background-color: #004c4c;
+        box-shadow: 0 0 0 0 ;
+      }
+      
+      /* Navigation bar styles */
+      .top-nav {
+        background-color: #ffffff;
+        color: #008080;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        transition: padding-left 0.3s ease;
+      }
+
+      #beta {
+        color: rgb(3, 89, 95);
+        font-size: 12px;
+        border-radius: 100px;
+        background-color: rgba(60, 255, 255, 0.379);
+        border: 1px solid;
+      }
+
+      #userGreeting {
+        color: black;
+        font-weight: bold;
+      }
+    </style>
   </head>
-  <body class="bg-[#e3ffff] text-black font-sans">
-    <div class="p-6 space-y-8 max-w-screen-xl mx-auto">
-      <!-- Greeting -->
-      <h1 class="text-2xl font-bold">Hello, <span id="username">Learner</span> 👋🏽</h1>
-      <p class="text-[#B2D8D8]">Based on your learning goal and interests, here’s what we recommend:</p>
+  <body>
+    <!-- Mobile menu toggle button -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="logo-container">
+        <img src="/img/logo.svg" alt="Logo" />
+      </div>
+      <nav class="sidenav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Courses</a>
+        <a href="#">Assignments</a>
+        <a href="#">Messages</a>
+        <a href="#">Settings</a>
+      </nav>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="top-nav">
+      <button id="beta" class="hover:bg-teal-900 text-white px-4 py-2 rounded">
+        Join Beta ✨
+      </button>
+      <span class="text-sm" id="userGreeting">Hello, User 👋🏽</span>
+      <img src="https://i.pravatar.cc/40" class="w-10 h-10 rounded-full" alt="User Profile" />
+    </div>
+    <!-- Main Content -->
+    <div class="main-content"><br>
+
+      <h2 class="text-3xl font-extrabold mb-4 text-[#008080]">Smart Recommendations</h2>
+      <p class="text-black text-lg max-w-xl mb-8">Based on your learning goal and interests, here's what we recommend:</p>
 
       <!-- AI Recommendation Block -->
-      <section class="bg-[#006666] rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>
-          <h2 class="text-xl font-semibold mb-2">🎯 AI Recommends: Native-Level Speaking Booster</h2>
-          <p class="text-sm text-[#B2D8D8] mb-4">Perfect for your goal: <strong>Speak Fluently</strong> and current level: <strong>Intermediate</strong></p>
-          <button class="bg-white text-[#004C4C] font-semibold px-4 py-2 rounded-md">Start Course</button>
+      <section class="bg-white rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
+        <div class="flex-1">
+          <h2 class="text-2xl font-bold mb-3 text-black flex items-center gap-3">
+            <span>🎯</span>
+            <span>AI Recommends: <span id="aiRecommendationTitle" class="underline decoration-yellow-300 decoration-4">Native-Level Speaking Booster</span></span>
+          </h2>
+          <p class="text-sm text-black/80 mb-6 max-w-md">Perfect for your goal: <strong id="userGoalDisplay">Speak Fluently</strong> and current level: <strong id="userLevelDisplay">Intermediate</strong></p>
+          <button class="bg-[#008080] hover:bg-[#004c4c] text-white font-bold px-6 py-3 rounded-lg shadow-md transition-colors duration-300">
+            Start Course
+          </button>
         </div>
-        <img src="https://cdni.iconscout.com/illustration/premium/thumb/english-language-course-7217785-5843791.png" class="h-32" alt="AI Course" />
+        <img src="/img/ill.png" class="h-40 md:h-48 rounded-lg" alt="AI Course" />
       </section>
+      <br><br>
 
-      <!-- Group: Get Started With -->
-      <section>
-        <h3 class="text-xl font-semibold mb-3">🚀 Get Started With</h3>
-        <div class="flex gap-4 overflow-x-auto pb-2">
-          <div class="min-w-[200px] bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold">Beginner Grammar</h4>
-            <p class="text-sm text-[#B2D8D8]">Basics to build your foundation</p>
-            <button class="mt-2 text-[#66B2B2] underline">Start</button>
-          </div>
-          <div class="min-w-[200px] bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold">Simple Speaking Practice</h4>
-            <p class="text-sm text-[#B2D8D8]">Everyday conversations</p>
-            <button class="mt-2 text-[#66B2B2] underline">Start</button>
-          </div>
+      <section class="mb-12">
+        <h3 class="text-2xl font-bold mb-6 text-black flex items-center gap-2">
+          <span>📚</span> Courses Based on Your Interests
+        </h3><br>
+        <div id="recommendations" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- JS will insert cards here -->
         </div>
       </section>
 
-      <!-- Group: Based on Your Goal -->
-      <section>
-        <h3 class="text-xl font-semibold mb-3">🎓 Courses to Reach Your Goal</h3>
-        <div class="flex gap-4 overflow-x-auto pb-2">
-          <div class="min-w-[200px] bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold">Fluent Conversations</h4>
-            <p class="text-sm text-[#B2D8D8]">Daily scenarios & phrases</p>
-            <button class="mt-2 text-[#66B2B2] underline">Start</button>
-          </div>
-          <div class="min-w-[200px] bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold">Speak Confidently</h4>
-            <p class="text-sm text-[#B2D8D8]">Overcome hesitation</p>
-            <button class="mt-2 text-[#66B2B2] underline">Start</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Group: Based on Interests -->
-      <section>
-        <h3 class="text-xl font-semibold mb-3">🧠 Based on Your Interests</h3>
-        <div class="flex gap-4 overflow-x-auto pb-2">
-          <div class="min-w-[200px] bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold">Everyday Vocabulary</h4>
-            <p class="text-sm text-[#B2D8D8]">Words you actually use</p>
-            <button class="mt-2 text-[#66B2B2] underline">Start</button>
-          </div>
-          <div class="min-w-[200px] bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold">TV Show Dialogues</h4>
-            <p class="text-sm text-[#B2D8D8]">Learn from real scenes</p>
-            <button class="mt-2 text-[#66B2B2] underline">Start</button>
-          </div>
-        </div>
-      </section>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <!-- Cards will be inserted here -->
+      </div>
 
       <!-- Tools Section -->
       <section>
-        <h3 class="text-xl font-semibold mb-3">🧰 Quick Tools for You</h3>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold mb-1">🎤 Speaking Partner Finder</h4>
-            <p class="text-sm text-[#B2D8D8]">Get matched with learners at your level</p>
-          </div>
-          <div class="bg-[#004C4C] p-4 rounded-lg">
-            <h4 class="font-semibold mb-1">📆 7-Day Challenge</h4>
-            <p class="text-sm text-[#B2D8D8]">Complete 1 task daily</p>
-          </div>
+        <h3 class="text-2xl font-bold mb-6 text-black flex items-center gap-2">
+          <span>🧰</span> Quick Tools for You
+        </h3><br>
+        <div class="grid md:grid-cols-2 gap-6">
+          <button class="bg-[#fff] p-6 rounded-xl text-black font-semibold hover:bg-[#efefef] transition-colors duration-300">
+            <h4 class="mb-2 text-xl">🎤 Speaking Partner Finder</h4>
+            <p class="text-sm text-black/80">Get matched with learners at your level</p>
+          </button>
+          <button class="bg-[#fff] p-6 rounded-xl text-black font-semibold hover:bg-[#efefef] transition-colors duration-300">
+            <h4 class="mb-2 text-xl">📆 7-Day Challenge</h4>
+            <p class="text-sm text-black/80">Complete 1 task daily</p>
+          </button>
         </div>
       </section>
     </div>
 
+    <footer class="bg-[#008080] text-white text-center py-4 mt-auto">
+      <p>© 2024 Champ Assist. All rights reserved.</p>
+    </footer>
+
     <script>
-      // Load user name from localStorage (or use fallback)
-      const userProfile = JSON.parse(localStorage.getItem("userProfile"));
-      if (userProfile?.name) {
-        document.getElementById("username").textContent = userProfile.name;
-      }
+      document.addEventListener("DOMContentLoaded", () => {
+        const user = JSON.parse(localStorage.getItem("userProfile")) || {
+          name: "Friend",
+          goal: "learn something new",
+          experience: "beginner",
+          topics: ["HTML", "CSS", "JavaScript"]
+        };
+
+        // Update greeting
+        document.getElementById("userGreeting").textContent = `Hello, ${user.name} 👋🏽`;
+        document.getElementById("userGoalDisplay").textContent = user.goal;
+        document.getElementById("userLevelDisplay").textContent = user.experience;
+        
+        // Generate dynamic AI recommendation title
+        const goalMap = {
+          "get freelance jobs": "Freelance Success Path",
+          "improve skills": "Skill Mastery Journey",
+          "learn something new": "Learning Adventure",
+          "build portfolio": "Portfolio Builder"
+        };
+        
+        const aiTitle = goalMap[user.goal] || "Personalized Learning Path";
+        document.getElementById("aiRecommendationTitle").textContent = aiTitle;
+
+        // Generate dynamic recommendations based on user topics
+        const topicRecommendations = {
+          "HTML": {
+            title: "Master HTML Fundamentals",
+            description: `Perfect for ${user.experience} learners. Start building web pages with HTML.`,
+            link: "https://www.youtube.com/results?search_query=html+tutorial+for+beginners"
+          },
+          "CSS": {
+            title: "CSS Styling Mastery",
+            description: `Learn CSS to style your web pages. Ideal for ${user.experience} developers.`,
+            link: "https://www.youtube.com/results?search_query=css+tutorial+for+beginners"
+          },
+          "JavaScript": {
+            title: "JavaScript Essentials",
+            description: `Add interactivity to your sites with JavaScript. Perfect for ${user.experience} level.`,
+            link: "https://www.youtube.com/results?search_query=javascript+tutorial+for+beginners"
+          },
+          "UI Design": {
+            title: "UI Design Principles",
+            description: `Create beautiful interfaces. Great for ${user.experience} designers.`,
+            link: "https://www.youtube.com/results?search_query=ui+design+tutorial"
+          },
+          "Freelancing": {
+            title: "Freelance Success Guide",
+            description: `Start your freelance journey. Perfect for ${user.experience} professionals.`,
+            link: "https://www.youtube.com/results?search_query=freelancing+tips+for+beginners"
+          }
+        };
+
+        // Create dynamic recommendations
+        const container = document.getElementById('recommendations');
+        container.innerHTML = '';
+
+        user.topics.forEach(topic => {
+          const reco = topicRecommendations[topic] || {
+            title: `Learn ${topic}`,
+            description: `Start your ${topic} journey as a ${user.experience}.`,
+            link: `https://www.youtube.com/results?search_query=${topic.toLowerCase()}+tutorial`
+          };
+          
+          const card = document.createElement('div');
+          card.className = 'bg-[#fff] text-black p-6 rounded-xl hover:bg-[#] transition-colors duration-300 shadow-md';
+          card.innerHTML = `
+            <h4 class="font-semibold text-lg mb-2">${reco.title}</h4>
+            <p class="text-sm mb-3">${reco.description}</p><br>
+            <a href="${reco.link}" target="_blank" id="enroll" class="text-[#B2D8D8] underline text-sm">Start Lesson</a>
+          `;
+          container.appendChild(card);
+        });
+
+        // Mobile menu toggle functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        function toggleMenu() {
+          sidebar.classList.toggle('active');
+          overlay.classList.toggle('active');
+        }
+        
+        menuToggle.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+        
+        // Close menu when clicking on sidebar links
+        const sidebarLinks = document.querySelectorAll('.sidebar nav a');
+        sidebarLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              toggleMenu();
+            }
+          });
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768) {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+          }
+        });
+      });
     </script>
   </body>
 </html>
