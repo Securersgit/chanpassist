@@ -204,6 +204,39 @@
         transition: padding-left 0.3s ease;
       }
 
+      .logo-mobile {
+        display: none;
+        position: absolute;
+        left: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 100px;
+        height: auto;
+        z-index: 10;
+      }
+
+      @media (max-width: 768px) {
+        .logo-mobile {
+          display: block;
+        }
+        
+        #userGreeting {
+          display: none;
+        }
+        
+        .top-nav {
+          padding-left: 50px;
+          justify-content: flex-end;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo-mobile {
+          max-width: 80px;
+          left: 45px;
+        }
+      }
+
       #beta {
         color: rgb(3, 89, 95);
         font-size: 12px;
@@ -241,6 +274,7 @@
 
     <!-- Navigation Bar -->
     <div class="top-nav">
+      <img src="/img/logo.svg" class="logo-mobile" alt="Logo" />
       <button id="beta" class="hover:bg-teal-900 text-white px-4 py-2 rounded">
         Join Beta ✨
       </button>

@@ -1,0 +1,156 @@
+/* Reset and Base - Optimized for Vercel Performance */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+  will-change: transform, opacity;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #1a1a1a;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+}
+
+/* Container Layout - Optimized */
+.container {
+  display: flex;
+  height: 100vh;
+  padding: 5px;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
+}
+
+/* Logo Container - Optimized */
+.logoBack {
+  position: fixed;
+  left: 25%;
+  top: 50%;
+}
+.logoBack img {
+  max-width: 400px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+    .logoBack {
+    position: fixed;
+    left: 55%;
+    top: 10%;
+  }
+}
+
+.logo {
+  max-width: 250px;
+  height: auto;
+  margin-left: -20px;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    max-width: 250px;
+  }
+}
+
+/* Left Panel - Optimized */
+.left-panel {
+  width: 40%;
+  background-color: #ffffff;
+  padding: 40px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .left-panel {
+    width: 100%;
+    order: 2;
+    padding: 30px 20px;
+    border-radius: 0;
+  }
+}
+
+/* Right Panel - Optimized */
+.right-panel {
+  width: 60%;
+  background-color: #FAFAFA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .right-panel {
+    width: 100%;
+    order: 1;
+    border-radius: 0;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.right-panel img {
+  max-width: 50%;
+  height: auto;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .right-panel img {
+    max-width: 80%;
+    height: auto;
+  }
+}
+
+/* Progress Bar - Optimized */
+.progress {
+  margin-bottom: 40px;
+}
+
+.progress-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.step {
+  height: 4px;
+  width: 40px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  will-change: background-color, transform;
+}
+
+.step.active {
+  background-color: #007
