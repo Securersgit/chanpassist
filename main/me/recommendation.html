@@ -215,6 +215,11 @@
       }
       
       @media (max-width: 768px) {
+
+        .top-nav button#beta {
+          display: none;
+        }
+
         .logo-mobile {
           display: block;
         }
@@ -223,9 +228,9 @@
           max-width: 150px;
         }
         
-        #userGreeting {
+        /* #userGreeting {
           display: none;
-        }
+        } */
         
         .top-nav {
           padding-left: 50px;
@@ -265,19 +270,24 @@
     <div class="sidebar" id="sidebar">
       <div class="logo-container">
         <img src="/img/logo.svg" alt="Logo" />
-      </div>
+      </div><br>
       <nav class="sidenav">
         <a href="#" class="active">Dashboard</a>
         <a href="#">Courses</a>
         <a href="#">Assignments</a>
         <a href="#">Messages</a>
         <a href="#">Settings</a>
+        <a href="#">
+          <button id="beta" class="hover:bg-teal-900 text-white px-4 py-2 rounded">
+            Join Beta ✨
+          </button>
+        </a>
       </nav>
     </div>
 
     <!-- Navigation Bar -->
     <div class="top-nav">
-      <img src="/img/logo.svg" class="logo-mobile" alt="Logo" />
+      <!-- <img src="/img/logo.svg" class="logo-mobile" alt="Logo" /> -->
       <button id="beta" class="hover:bg-teal-900 text-white px-4 py-2 rounded">
         Join Beta ✨
       </button>
