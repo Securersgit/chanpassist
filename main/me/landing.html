@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Champ Assist - Landing Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      color: #004C4C;
+      line-height: 1.6;
+      background-color: #fff;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      max-height: 15vh;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: auto;
+      margin-right: 10px;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #004C4C;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #008080;
+    }
+
+    .cta-button {
+      background: #008080;
+      color: white;
+      border: none;
+      padding: 10px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .cta-button a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .cta-button:hover {
+      background: #006666;
+    }
+
+    .hero {
+      background-color: #F3F4F6;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 5% 40px;
+      gap: 60px;
+      width: 100vw;
+      height: 70vh;
+      margin: 0 auto;
+    }
+
+    .hero-content {
+      flex: 1;
+      text-align: left;
+      max-width: 500px;
+    }
+
+    .hero-illustration {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-illustration img {
+      max-width: 50%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      margin: 20px 0;
+      color: #333;
+      font-size: 1.1rem;
+    }
+
+    .hero .cta-button {
+      margin-top: 30px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-top: 60px;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #004C4C;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 0 5% 80px;
+    }
+
+    .feature-box {
+      flex: 1 1 250px;
+      max-width: 300px;
+      background: #f5fefe;
+      border: 1px solid #e0f7f7;
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-box h3 {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #004C4C;
+    }
+
+    .feature-box p {
+      color: #444;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+
+    footer {
+      background: #004C4C;
+      color: white;
+      padding: 40px 5%;
+    }
+
+    footer .footer-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    footer .footer-top div {
+      flex: 1 1 200px;
+    }
+
+    footer h4 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .subscribe input[type="email"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    .subscribe button {
+      background: #66B2B2;
+      border: none;
+      padding: 8px 16px;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    img.logo-img {
+        max-width: 200px;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #004C4C;
+      margin: 3px 0;
+      transition: 0.3s;
+    }
+
+    #show {
+      display: none;
+    }
+
+    nav.hide {
+      display: none;
+      /* margin-left: -300px; */
+      position: absolute;
+      max-width: 10px;
+    }
+
+    .ppt img {
+      max-width: 150px;
+      height: auto !important;
+    }
+
+    @media (max-width: 768px) {
+      nav.hide {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+
+      #hide {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+        transform: translateX(-30px);
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 250px;
+        background: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px 0;
+        z-index: 1001;
+        border-radius: 8px;
+        margin-top: 10px;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        padding: 10px 5%;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      nav ul li:last-child {
+        border-bottom: none;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+
+      .hero {
+        flex-direction: column;
+        height: auto;
+        padding: 60px 5% 40px;
+        text-align: center;
+      }
+
+      .hero-content {
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .hero-illustration {
+        order: 2;
+        width: 100%;
+      }
+
+      .hero-illustration img {
+        max-width: 80%;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      header {
+        position: relative;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      nav {
+        position: relative;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="hide">
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul id="nav-menu" class="hide">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Course</a></li>
+        <li><a href="#">Feature</a></li>
+        <li><a href="#">Product</a></li>
+        <li><a href="#">Testimonial</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><button class="cta-button">&nbsp; Join Beta ↗ </button></li>
+      </ul>
+    </nav>
+    <div class="logo">
+      <img class="logo-img" src="/img/logo.svg" alt="Champ Assist Logo">
+    </div>
+
+    <nav>
+      <ul id="nav-menu" class="show">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Course</a></li>
+        <li><a href="#">Feature</a></li>
+        <li><a href="#">Product</a></li>
+        <li><a href="#">Testimonial</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <button class="cta-button" id="hide">&nbsp; Join Beta ↗ </button>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>The Best Online Learning Experience</h1>
+      <p>Master tech skills and job-ready strategies in minutes, not months.</p>
+      <button class="cta-button"><a href="/me/htm.html">Get Started</a></button>
+    </div>
+    <div class="hero-illustration">
+      <img src="/img/Illustration.png" alt="Online Learning Illustration" />
+    </div>
+  </section>
+
+  
+
+  <h2 class="section-title">Manage all your learning experience in a single tool</h2>
+
+  <section class="features">
+    <div class="feature-box">
+      <i class="fa-solid fa-users fa-2x"></i>
+      <h3>Aspiring Tech Professionals</h3>
+      <p>From "beginner" to "hired" faster — curated paths, job alerts, and resume hacks in one place.</p>
+    </div>
+    <div class="feature-box">
+      <i class="fa-solid fa-briefcase fa-2x"></i>
+      <h3>Career Switchers</h3>
+      <p>Break into tech without the guesswork. We shortcut your transition with the skills companies actually want.</p>
+    </div>
+    <div class="feature-box">
+      <i class="fa-solid fa-graduation-cap fa-2x"></i>
+      <h3>Bootcamp/Course Graduates</h3>
+      <p>Don't just learn — launch. Interview prep, portfolio tips, and hidden job leads.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-top">
+      <div class="ppt">
+        <img class="footimg" src="/img/Frame 159.png" alt="Logo" style="height: 28px;">
+        <p style="margin-top:10px">© 2025 Champ Assist<br>All rights reserved</p>
+        <p>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-youtube"></i>
+        </p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Testimonials</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help center</a></li>
+          <li><a href="#">Terms of service</a></li>
+          <li><a href="#">Legal</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div class="subscribe">
+        <h4>Stay up to date</h4>
+        <input type="email" placeholder="Your email address">
+        <button>→</button>
+      </div>
+    </div>
+    <p class="copyright">Champ Assist © 2025</p>
+  </footer>
+
+  <script>
+    // Hamburger menu functionality
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('nav ul');
+
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+        navMenu.classList.remove('active');
+      }
+    });
+
+    // Close menu when clicking a link
+    const navLinks = document.querySelectorAll('nav ul li a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+
+</html>
